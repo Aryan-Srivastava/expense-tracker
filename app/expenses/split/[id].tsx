@@ -3,17 +3,18 @@ import Button from '@/components/Button';
 import { colors } from '@/constants/Colors';
 import { useExpenseStore } from '@/hooks/useExpenseStore';
 import { useGroupStore } from '@/hooks/useGroupStore';
+import { SplitMember } from '@/types';
 import { Image } from 'expo-image';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Switch,
-    Text,
-    View,
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
 } from 'react-native';
 
 export default function SplitExpenseScreen() {
@@ -29,6 +30,185 @@ export default function SplitExpenseScreen() {
   const [splitType, setSplitType] = useState<'equal' | 'custom'>('equal');
   const [customAmounts, setCustomAmounts] = useState<Record<string, number>>({});
   const [totalCustomAmount, setTotalCustomAmount] = useState(0);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    expenseCard: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+      alignItems: 'center',
+    },
+    expenseName: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    expenseAmount: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    expenseDescription: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    section: {
+      backgroundColor: colors.white,
+      margin: 20,
+      marginTop: 0,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    equalSplitAmount: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.primary,
+    },
+    groupItem: {
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 16,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedGroupItem: {
+      backgroundColor: colors.primaryLight,
+      borderColor: colors.primary,
+    },
+    groupName: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    selectedGroupName: {
+      color: colors.primary,
+    },
+    groupMembers: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    selectedGroupMembers: {
+      color: colors.primary,
+    },
+    emptyContainer: {
+      alignItems: 'center',
+      padding: 20,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 16,
+      textAlign: 'center',
+    },
+    createGroupButton: {
+      marginTop: 8,
+    },
+    splitTypeContainer: {
+      flexDirection: 'row',
+      gap: 12,
+      marginBottom: 8,
+    },
+    splitTypeButton: {
+      flex: 1,
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedSplitTypeButton: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    splitTypeText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+    },
+    selectedSplitTypeText: {
+      color: colors.white,
+    },
+    memberItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    memberInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    memberAvatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      marginRight: 12,
+    },
+    memberName: {
+      fontSize: 16,
+      color: colors.text,
+    },  buttonContainer: {
+      padding: 20,
+      paddingTop: 0,
+      marginBottom: 20,
+    },
+    memberControls: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 12,
+    },  amountInput: {
+      width: 100,
+      marginBottom: 0,
+    },
+    amountError: {
+      color: colors.error,
+    },
+  });
 
   useEffect(() => {
     if (selectedGroupId) {
@@ -51,7 +231,7 @@ export default function SplitExpenseScreen() {
         
         setSelectedMembers(initialSelectedMembers);
         setCustomAmounts(initialCustomAmounts);
-        setTotalCustomAmount(expense.amount);
+        setTotalCustomAmount(expense?.amount || 0);
       }
     }
   }, [selectedGroupId, groups, expense]);
@@ -94,6 +274,16 @@ export default function SplitExpenseScreen() {
       return;
     }
     
+    // Validate total amount before submitting
+    if (splitType === 'custom' && Math.abs(totalCustomAmount - expense.amount) > 0.01) {
+      Alert.alert(
+        'Error',
+        'The sum of all shares must equal the total expense amount.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+    
     // Create split members array
     const splitBetween = members.map(member => {
       let amount;
@@ -104,22 +294,12 @@ export default function SplitExpenseScreen() {
         amount = customAmounts[member.id] || 0;
       }
       
-    // Validate total amount before submitting
-      if (splitType === 'custom' && Math.abs(totalCustomAmount - expense.amount) > 0.01) {
-        Alert.alert(
-          'Error',
-          'The sum of all shares must equal the total expense amount.',
-          [{ text: 'OK' }]
-        );
-        return;
-      }
-
       return {
         memberId: member.id,
         amount,
         settled: member.id === 'user1', // Current user's expenses are automatically settled
       };
-    });
+    }).filter((item): item is SplitMember => item !== undefined);
     
     // Add expense to the group
     addGroupExpense(selectedGroupId, {
@@ -323,182 +503,3 @@ export default function SplitExpenseScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  expenseCard: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-    alignItems: 'center',
-  },
-  expenseName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  expenseAmount: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  expenseDescription: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  section: {
-    backgroundColor: colors.white,
-    margin: 20,
-    marginTop: 0,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  equalSplitAmount: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.primary,
-  },
-  groupItem: {
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  selectedGroupItem: {
-    backgroundColor: colors.primaryLight,
-    borderColor: colors.primary,
-  },
-  groupName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  selectedGroupName: {
-    color: colors.primary,
-  },
-  groupMembers: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  selectedGroupMembers: {
-    color: colors.primary,
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  createGroupButton: {
-    marginTop: 8,
-  },
-  splitTypeContainer: {
-    flexDirection: 'row',
-    gap: 12,
-    marginBottom: 8,
-  },
-  splitTypeButton: {
-    flex: 1,
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  selectedSplitTypeButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  splitTypeText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-  },
-  selectedSplitTypeText: {
-    color: colors.white,
-  },
-  memberItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  memberInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  memberAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 12,
-  },
-  memberName: {
-    fontSize: 16,
-    color: colors.text,
-  },  buttonContainer: {
-    padding: 20,
-    paddingTop: 0,
-    marginBottom: 20,
-  },
-  memberControls: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },  amountInput: {
-    width: 100,
-    marginBottom: 0,
-  },
-  amountError: {
-    color: colors.error,
-  },
-});

@@ -12,6 +12,102 @@ export default function ExpenseDetailScreen() {
   const { getExpenseById, deleteExpense } = useExpenseStore();
   
   const expense = getExpenseById(id);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    headerButtons: {
+      flexDirection: 'row',
+      gap: 8,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    amountContainer: {
+      backgroundColor: colors.white,
+      padding: 20,
+      alignItems: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    amountLabel: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 8,
+    },
+    amount: {
+      fontSize: 36,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    card: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    description: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    detailsContainer: {
+      gap: 16,
+    },
+    detailItem: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+    },
+    detailIcon: {
+      marginRight: 8,
+      marginTop: 2,
+    },
+    detailText: {
+      fontSize: 16,
+      color: colors.text,
+      flex: 1,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    tagBadge: {
+      backgroundColor: colors.primaryLight,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 16,
+    },
+    tagText: {
+      fontSize: 14,
+      color: colors.primary,
+      fontWeight: '500',
+    },
+    actionsContainer: {
+      padding: 20,
+    },
+  });
   
   if (!expense) {
     return (
@@ -57,7 +153,7 @@ export default function ExpenseDetailScreen() {
       day: 'numeric',
     });
   };
-  
+
   return (
     <>
       <Stack.Screen
@@ -127,99 +223,3 @@ export default function ExpenseDetailScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  amountContainer: {
-    backgroundColor: colors.white,
-    padding: 20,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  amountLabel: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  amount: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  card: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  description: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  detailsContainer: {
-    gap: 16,
-  },
-  detailItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  detailIcon: {
-    marginRight: 8,
-    marginTop: 2,
-  },
-  detailText: {
-    fontSize: 16,
-    color: colors.text,
-    flex: 1,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tagBadge: {
-    backgroundColor: colors.primaryLight,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-  },
-  tagText: {
-    fontSize: 14,
-    color: colors.primary,
-    fontWeight: '500',
-  },
-  actionsContainer: {
-    padding: 20,
-  },
-});

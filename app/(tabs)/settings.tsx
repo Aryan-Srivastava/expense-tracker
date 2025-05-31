@@ -2,13 +2,13 @@ import { colors } from '@/constants/Colors';
 import { useSettingsStore } from '@/hooks/useSettingsStore';
 import { useRouter } from 'expo-router';
 import {
-    Bell,
-    ChevronRight,
-    CreditCard,
-    DollarSign,
-    HelpCircle,
-    LogOut,
-    Moon,
+  Bell,
+  ChevronRight,
+  CreditCard,
+  DollarSign,
+  HelpCircle,
+  LogOut,
+  Moon,
 } from 'lucide-react-native';
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
@@ -20,6 +20,112 @@ export default function SettingsScreen() {
   const toggleNotifications = () => {
     updateSettings({ notifications: !settings.notifications });
   };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    profileSection: {
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: colors.white,
+      marginBottom: 20,
+    },
+    profileImageContainer: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    profileInitial: {
+      fontSize: 32,
+      fontWeight: '600',
+      color: colors.white,
+    },
+    profileName: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    profileEmail: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    section: {
+      backgroundColor: colors.white,
+      borderRadius: 16,
+      marginHorizontal: 20,
+      marginBottom: 20,
+      padding: 16,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    settingItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    settingIconContainer: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primaryLight,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    settingContent: {
+      flex: 1,
+    },
+    settingTitle: {
+      fontSize: 16,
+      color: colors.text,
+      marginBottom: 2,
+    },
+    settingDescription: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    settingValue: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    logoutButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.white,
+      borderRadius: 16,
+      marginHorizontal: 20,
+      marginBottom: 20,
+      padding: 16,
+    },
+    logoutIcon: {
+      marginRight: 8,
+    },
+    logoutText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.error,
+    },
+    versionText: {
+      textAlign: 'center',
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+  });
   
   return (
     <ScrollView style={styles.container}>
@@ -128,109 +234,3 @@ export default function SettingsScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  profileSection: {
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: colors.white,
-    marginBottom: 20,
-  },
-  profileImageContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  profileInitial: {
-    fontSize: 32,
-    fontWeight: '600',
-    color: colors.white,
-  },
-  profileName: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  profileEmail: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  section: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    padding: 16,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  settingItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  settingIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.primaryLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  settingContent: {
-    flex: 1,
-  },
-  settingTitle: {
-    fontSize: 16,
-    color: colors.text,
-    marginBottom: 2,
-  },
-  settingDescription: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  settingValue: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    marginHorizontal: 20,
-    marginBottom: 20,
-    padding: 16,
-  },
-  logoutIcon: {
-    marginRight: 8,
-  },
-  logoutText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.error,
-  },
-  versionText: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-});

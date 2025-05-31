@@ -12,6 +12,153 @@ export default function InvestmentDetailScreen() {
   const { getInvestmentById, deleteInvestment } = useInvestmentStore();
   
   const investment = getInvestmentById(id);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    headerButtons: {
+      flexDirection: 'row',
+      gap: 8,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.white,
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    name: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    typeContainer: {
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 8,
+      backgroundColor: colors.primaryLight,
+    },
+    stockType: {
+      backgroundColor: colors.primaryLight,
+    },
+    fundType: {
+      backgroundColor: colors.secondaryLight,
+    },
+    cryptoType: {
+      backgroundColor: colors.accentLight,
+    },
+    typeText: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.primary,
+    },
+    priceContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.white,
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    currentPriceContainer: {
+      alignItems: 'flex-start',
+    },
+    currentPriceLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 4,
+    },
+    currentPrice: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    changeContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    changeIcon: {
+      marginRight: 4,
+    },
+    changePercentage: {
+      fontSize: 18,
+      fontWeight: '600',
+    },
+    profit: {
+      color: colors.success,
+    },
+    loss: {
+      color: colors.error,
+    },
+    card: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    detailRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    detailLabel: {
+      fontSize: 16,
+      color: colors.textSecondary,
+    },
+    detailValue: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+    },
+    dateContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    dateIcon: {
+      marginRight: 4,
+    },
+    notesContainer: {
+      marginTop: 16,
+    },
+    notesLabel: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    notesText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      lineHeight: 24,
+    },
+    actionsContainer: {
+      padding: 20,
+    },
+  });
   
   if (!investment) {
     return (
@@ -223,150 +370,3 @@ export default function InvestmentDetailScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  headerButtons: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  typeContainer: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    backgroundColor: colors.primaryLight,
-  },
-  stockType: {
-    backgroundColor: colors.primaryLight,
-  },
-  fundType: {
-    backgroundColor: colors.secondaryLight,
-  },
-  cryptoType: {
-    backgroundColor: colors.accentLight,
-  },
-  typeText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: colors.primary,
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  currentPriceContainer: {
-    alignItems: 'flex-start',
-  },
-  currentPriceLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  currentPrice: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  changeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  changeIcon: {
-    marginRight: 4,
-  },
-  changePercentage: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  profit: {
-    color: colors.success,
-  },
-  loss: {
-    color: colors.error,
-  },
-  card: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  detailRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  detailLabel: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  detailValue: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  dateIcon: {
-    marginRight: 4,
-  },
-  notesContainer: {
-    marginTop: 16,
-  },
-  notesLabel: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  notesText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    lineHeight: 24,
-  },
-  actionsContainer: {
-    padding: 20,
-  },
-});

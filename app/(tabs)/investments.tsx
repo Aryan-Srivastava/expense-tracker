@@ -30,6 +30,64 @@ export default function InvestmentsScreen() {
     return profitB - profitA;
   });
   
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    scrollContainer: {
+      paddingBottom: 100, // Ensure enough space at bottom
+    },
+    summaryCardsContainer: {
+      marginVertical: 16,
+    },
+    summaryCardsContent: {
+      paddingHorizontal: 20,
+      gap: 12,
+    },
+    listContainer: {
+      flex: 1,
+      paddingHorizontal: 20,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    listContent: {
+      paddingBottom: 8,
+    },
+    emptyContainer: {
+      padding: 20,
+      backgroundColor: colors.white,
+      borderRadius: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      textAlign: 'center',
+    },
+    addButton: {
+      position: 'absolute',
+      bottom: 20,
+      right: 20,
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+    },
+  });
+  
   return (
     <ScrollView
       style={styles.container}
@@ -101,62 +159,3 @@ export default function InvestmentsScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollContainer: {
-    paddingBottom: 100, // Ensure enough space at bottom
-  },
-  summaryCardsContainer: {
-    marginVertical: 16,
-  },
-  summaryCardsContent: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  listContainer: {
-    flex: 1,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  listContent: {
-    paddingBottom: 8,
-  },
-  emptyContainer: {
-    padding: 20,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-});
-

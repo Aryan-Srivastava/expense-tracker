@@ -30,6 +30,52 @@ export default function CurrencyScreen() {
     ]);
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    listContent: {
+      padding: 20,
+    },
+    currencyItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.white,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 12,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    currencyInfo: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    currencySymbol: {
+      fontSize: 20,
+      fontWeight: '600',
+      color: colors.text,
+      width: 40,
+      textAlign: 'center',
+      marginRight: 12,
+    },
+    currencyName: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    currencyCode: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+  });
+
   return (
     <>
       <Stack.Screen options={{ title: 'Currency' }} />
@@ -62,49 +108,3 @@ export default function CurrencyScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  listContent: {
-    padding: 20,
-  },
-  currencyItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  currencyInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  currencySymbol: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
-    width: 40,
-    textAlign: 'center',
-    marginRight: 12,
-  },
-  currencyName: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  currencyCode: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-});
