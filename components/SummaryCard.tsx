@@ -1,5 +1,6 @@
 import { colors } from '@/constants/Colors';
-import React from 'react';
+import { useThemeContext } from '@/hooks/useThemeContext';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface SummaryCardProps {
@@ -11,14 +12,20 @@ interface SummaryCardProps {
   icon?: React.ReactNode;
 }
 
-const SummaryCard: React.FC<SummaryCardProps> = ({
+export default function SummaryCard({
   title,
   amount,
   subtitle,
   isPositive,
   isNegative,
   icon,
-}) => {
+}: SummaryCardProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
+  
   const formatCurrency = (value: number) => {
     return value.toLocaleString('en-US', {
       style: 'currency',
@@ -27,6 +34,50 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
       maximumFractionDigits: 2,
     });
   };
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+      minWidth: 150,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    title: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    iconContainer: {
+      marginLeft: 8,
+    },
+    amount: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    positive: {
+      color: colors.success,
+    },
+    negative: {
+      color: colors.error,
+    },
+    subtitle: {
+      fontSize: 12,
+      color: colors.textSecondary,
+    },
+  });
   
   return (
     <View style={styles.container}>
@@ -51,47 +102,4 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    padding: 16,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-    minWidth: 150,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  iconContainer: {
-    marginLeft: 8,
-  },
-  amount: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  positive: {
-    color: colors.success,
-  },
-  negative: {
-    color: colors.error,
-  },
-  subtitle: {
-    fontSize: 12,
-    color: colors.textSecondary,
-  },
-});
-
-export default SummaryCard;
+// Styles are now defined inside the component

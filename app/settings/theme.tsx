@@ -1,10 +1,11 @@
-import { colors, theme } from '@/constants/Colors';
+import { colors } from '@/constants/Colors';
 import { useSettingsStore } from '@/hooks/useSettingsStore';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { UserSettings } from '@/types';
 import { Stack, useRouter } from 'expo-router';
 import { Check, Moon, Smartphone, Sun } from 'lucide-react-native';
-import React, { useEffect } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View, useColorScheme } from 'react-native';
+import React from 'react';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 
 type ThemeOption = UserSettings['theme'];
 
@@ -43,28 +44,13 @@ const ThemeItem: React.FC<ThemeItemProps> = ({
 export default function ThemeScreen() {
   const router = useRouter();
   const { settings, updateSettings } = useSettingsStore();
-  const colorScheme = useColorScheme();
-
-  useEffect(() => {
-    // Apply theme when screen is loaded or settings change
-    applyTheme(settings.theme);
-  }, [settings.theme]);
-  const applyTheme = (selectedTheme: ThemeOption) => {
-    const activeTheme = selectedTheme === 'system'
-      ? colorScheme || 'light'
-      : selectedTheme;
-
-    // Apply theme-specific colors
-    const themeColors = activeTheme === 'dark' ? theme.dark : theme.light;
-
-    // You can expand this to apply global theme settings
-    Object.keys(themeColors).forEach(key => {
-      colors[key] = themeColors[key];
-    });
-  };
+  const { theme: currentTheme, setTheme } = useThemeContext();
 
   const handleThemeSelect = (theme: ThemeOption) => {
+    // Update the theme in both the settings store and theme context
     updateSettings({ theme });
+    setTheme(theme);
+    
     Alert.alert('Success', 'Theme updated successfully.', [
       { text: 'OK', onPress: () => router.back() }
     ]);
@@ -100,10 +86,6 @@ export default function ThemeScreen() {
           isSelected={settings.theme === 'system'}
           onSelect={() => handleThemeSelect('system')}
         />
-        
-        <Text style={styles.note}>
-          Note: Dark mode is currently in development and will be available in a future update.
-        </Text>
       </View>
     </>
   );

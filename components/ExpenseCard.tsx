@@ -1,8 +1,9 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Expense } from '@/types';
 import { Image } from 'expo-image';
 import { ArrowUpRight } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ExpenseCardProps {
@@ -33,7 +34,97 @@ const formatDate = (dateString: string) => {
   });
 };
 
-const ExpenseCard: React.FC<ExpenseCardProps> = ({ expense, onPress }) => {
+export default function ExpenseCard({ expense, onPress }: ExpenseCardProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 12,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    pressed: {
+      opacity: 0.9,
+      transform: [{ scale: 0.98 }],
+    },
+    iconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 12,
+      overflow: 'hidden',
+      marginRight: 16,
+    },
+    icon: {
+      width: '100%',
+      height: '100%',
+    },
+    detailsContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    name: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    description: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 6,
+    },
+    tagContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    tag: {
+      fontSize: 12,
+      color: colors.primary,
+      backgroundColor: colors.primaryLight,
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 8,
+      overflow: 'hidden',
+      marginRight: 8,
+      minWidth: 80,
+      maxWidth: 120,
+      textAlign: 'center',
+    },
+    date: {
+      fontSize: 12,
+      color: colors.textSecondary,
+    },
+    amountContainer: {
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      paddingLeft: 16,
+    },
+    amountWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    amountIcon: {
+      marginRight: 4,
+    },
+    amount: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.error,
+    },
+  });
   return (
     <Pressable
       style={({ pressed }) => [
@@ -80,87 +171,4 @@ const ExpenseCard: React.FC<ExpenseCardProps> = ({ expense, onPress }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  pressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.98 }],
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginRight: 16,
-  },
-  icon: {
-    width: '100%',
-    height: '100%',
-  },
-  detailsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 6,
-  },
-  tagContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },  tag: {
-    fontSize: 12,
-    color: colors.primary,
-    backgroundColor: colors.primaryLight,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginRight: 8,
-    minWidth: 80,
-    maxWidth: 120,
-    textAlign: 'center',
-  },
-  date: {
-    fontSize: 12,
-    color: colors.textSecondary,
-  },
-  amountContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingLeft: 16,
-  },
-  amountWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  amountIcon: {
-    marginRight: 4,
-  },
-  amount: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.error,
-  },
-});
-
-export default ExpenseCard;
+// Styles are now defined inside the component

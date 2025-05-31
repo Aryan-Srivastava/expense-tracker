@@ -6,9 +6,10 @@ import { useExpenseStore } from '@/hooks/useExpenseStore';
 import { useGroupStore } from '@/hooks/useGroupStore';
 import { useSettingsStore } from '@/hooks/useSettingsStore';
 import { useSubscriptionStore } from '@/hooks/useSubscriptionStore';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { useRouter } from 'expo-router';
 import { ArrowDownRight, ArrowUpRight, Bell, Plus } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function DashboardScreen() {
@@ -17,6 +18,7 @@ export default function DashboardScreen() {
   const { getTotalOwed, getTotalOwes } = useGroupStore();
   const { subscriptions, getUpcomingSubscriptions } = useSubscriptionStore();
   const { settings } = useSettingsStore();
+  const { activeTheme } = useThemeContext();
   
   // Get current month and year
   const now = new Date();
@@ -44,6 +46,162 @@ export default function DashboardScreen() {
   // Calculate total owed and owes
   const totalOwed = getTotalOwed('user1'); // Assuming current user is 'user1'
   const totalOwes = getTotalOwes('user1');
+  
+  // Use theme context to force re-render when theme changes
+  useEffect(() => {
+    // This will force the component to re-render when the theme changes
+    console.log(`Dashboard theme changed to: ${activeTheme}`);
+  }, [activeTheme]);
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingTop: 20,
+      paddingBottom: 10,
+    },
+    greeting: {
+      fontSize: 16,
+      color: colors.textSecondary,
+    },
+    name: {
+      fontSize: 24,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    notificationButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.card,
+      justifyContent: 'center',
+      alignItems: 'center',
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    monthlyExpenseContainer: {
+      margin: 20,
+      padding: 20,
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    monthlyExpenseTitle: {
+      fontSize: 16,
+      color: colors.textSecondary,
+      marginBottom: 8,
+    },
+    monthlyExpenseContent: {
+      alignItems: 'flex-start',
+    },
+    monthlyExpenseAmount: {
+      fontSize: 32,
+      fontWeight: '700',
+      marginBottom: 12,
+    },
+    overBudget: {
+      color: colors.error,
+    },
+    underBudget: {
+      color: colors.success,
+    },
+    budgetContainer: {
+      height: 8,
+      width: '100%',
+      backgroundColor: colors.border,
+      borderRadius: 4,
+      overflow: 'hidden',
+      marginBottom: 8,
+    },
+    budgetBar: {
+      height: '100%',
+      borderRadius: 4,
+    },
+    overBudgetBar: {
+      backgroundColor: colors.error,
+    },
+    underBudgetBar: {
+      backgroundColor: colors.success,
+    },
+    budgetText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    summaryCardsContainer: {
+      marginBottom: 20,
+    },
+    summaryCardsContent: {
+      paddingHorizontal: 20,
+      gap: 12,
+    },
+    sectionContainer: {
+      marginHorizontal: 20,
+      marginBottom: 20,
+    },
+    sectionHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    seeAllButton: {
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      borderRadius: 8,
+    },
+    seeAllText: {
+      fontSize: 14,
+      color: colors.primary,
+      minWidth: 60, // Ensure minimum width for the text
+      textAlign: 'center', // Center-align the text
+      fontWeight: '500',
+    },
+    emptyContainer: {
+      padding: 20,
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.textSecondary,
+    },
+    addButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: colors.primary,
+      borderRadius: 12,
+      padding: 16,
+      marginTop: 16,
+    },
+    addButtonText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: '600',
+      marginLeft: 8,
+    },
+  });
   
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -123,8 +281,11 @@ export default function DashboardScreen() {
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Recent Expenses</Text>
-          <Pressable onPress={() => router.push('/expenses')}>
-            <Text style={styles.seeAllText}>  See All</Text>
+          <Pressable 
+            style={styles.seeAllButton}
+            onPress={() => router.push('/expenses')}
+          >
+            <Text style={styles.seeAllText}>See All</Text>
           </Pressable>
         </View>
         
@@ -154,7 +315,10 @@ export default function DashboardScreen() {
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Upcoming Subscriptions</Text>
-          <Pressable onPress={() => router.push('/subscriptions')}>
+          <Pressable 
+            style={styles.seeAllButton}
+            onPress={() => router.push('/expenses')}
+          >
             <Text style={styles.seeAllText}>See All</Text>
           </Pressable>
         </View>
@@ -164,7 +328,7 @@ export default function DashboardScreen() {
             <SubscriptionCard
               key={subscription.id}
               subscription={subscription}
-              onPress={() => router.push(`/subscriptions/${subscription.id}`)}
+              onPress={() => router.push(`/expenses`)}
             />
           ))
         ) : (
@@ -177,145 +341,4 @@ export default function DashboardScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
-  },
-  greeting: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  notificationButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  monthlyExpenseContainer: {
-    margin: 20,
-    padding: 20,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  monthlyExpenseTitle: {
-    fontSize: 16,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  monthlyExpenseContent: {
-    alignItems: 'flex-start',
-  },
-  monthlyExpenseAmount: {
-    fontSize: 32,
-    fontWeight: '700',
-    marginBottom: 12,
-  },
-  overBudget: {
-    color: colors.error,
-  },
-  underBudget: {
-    color: colors.success,
-  },
-  budgetContainer: {
-    height: 8,
-    width: '100%',
-    backgroundColor: colors.border,
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginBottom: 8,
-  },
-  budgetBar: {
-    height: '100%',
-    borderRadius: 4,
-  },
-  overBudgetBar: {
-    backgroundColor: colors.error,
-  },
-  underBudgetBar: {
-    backgroundColor: colors.success,
-  },
-  budgetText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  summaryCardsContainer: {
-    marginBottom: 20,
-  },
-  summaryCardsContent: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  sectionContainer: {
-    marginHorizontal: 20,
-    marginBottom: 20,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  seeAllText: {
-    fontSize: 14,
-    color: colors.primary,
-    flexShrink: 1,
-    flexWrap: 'wrap',
-  },
-  emptyContainer: {
-    padding: 20,
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  emptyText: {
-    fontSize: 16,
-    color: colors.textSecondary,
-  },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.primary,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 16,
-  },
-  addButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-});
+// Styles are now defined inside the component

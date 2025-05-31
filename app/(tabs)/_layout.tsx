@@ -1,9 +1,18 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Tabs } from 'expo-router';
 import { CreditCard, Home, PieChart, Settings, Users } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function TabLayout() {
+  const { activeTheme } = useThemeContext();
+  
+  // Force re-render when theme changes
+  useEffect(() => {
+    // Re-render the component when the theme changes
+    console.log(`Theme changed to: ${activeTheme}`);
+  }, [activeTheme]);
+  
   return (
     <Tabs
       screenOptions={{
@@ -15,17 +24,19 @@ export default function TabLayout() {
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
+          backgroundColor: colors.card,
         },
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: '500',
         },
         headerStyle: {
-          backgroundColor: colors.white,
+          backgroundColor: colors.card,
         },
         headerTitleStyle: {
           fontWeight: '600',
           fontSize: 18,
+          color: colors.text,
         },
         headerShadowVisible: false,
       }}

@@ -1,7 +1,8 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Group } from '@/types';
 import { Image } from 'expo-image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface GroupCardProps {
@@ -10,7 +11,12 @@ interface GroupCardProps {
   onPress?: () => void;
 }
 
-const GroupCard: React.FC<GroupCardProps> = ({ group, balance, onPress }) => {
+export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
+  const { activeTheme } = useThemeContext();
+  
+  // Force re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
+
   // Calculate how many members to show and how many are remaining
   const visibleMembers = group.members.slice(0, 3);
   const remainingMembers = Math.max(0, group.members.length - 3);
@@ -100,7 +106,7 @@ const formatDate = (dateString: string) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.card,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
@@ -124,6 +130,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: colors.text,
+    flexShrink: 1,
+    marginRight: 12, // Add more margin to prevent overlap with balance
+    flex: 1, // Take available space but allow shrinking
   },
   balance: {
     fontSize: 16,
@@ -187,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GroupCard;
+// Export is already at the component declaration

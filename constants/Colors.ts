@@ -6,6 +6,7 @@
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
 
+// Light and dark theme base colors
 export const theme = {
   light: {
     text: '#11181C',
@@ -25,8 +26,8 @@ export const theme = {
   },
 };
 
-// Color palette for the financial tracker app
-export const colors = {
+// Light mode color palette
+export const lightColors = {
   // Primary colors
   primary: '#3366FF',
   primaryLight: '#D6E4FF',
@@ -61,6 +62,45 @@ export const colors = {
   split: '#0095FF',
 };
 
+// Dark mode color palette
+export const darkColors = {
+  // Primary colors
+  primary: '#fff',
+  primaryLight: '#1F2B5F',
+  
+  // Secondary colors
+  secondary: '#8A94FF',
+  secondaryLight: '#2A2E5C',
+  
+  // Accent colors
+  accent: '#00D69D',
+  accentLight: '#1A3D33',
+  
+  // Status colors
+  success: '#00D69D',
+  warning: '#FFD76B',
+  error: '#FF7D91',
+  info: '#33A9FF',
+  
+  // Neutral colors
+  white: '#1E2023',
+  background: '#121212',
+  card: '#1E2023',
+  text: '#ECEDEE',
+  textSecondary: '#9BA1A6',
+  border: '#2C2F33',
+  
+  // Specific feature colors
+  expense: '#FF7D91',
+  income: '#00D69D',
+  investment: '#8A94FF',
+  subscription: '#FFD76B',
+  split: '#33A9FF',
+};
+
+// Default to light mode colors initially
+export let colors = { ...lightColors };
+
 // Semantic color mapping
 export const semantic = {
   // Dashboard
@@ -85,12 +125,20 @@ export const semantic = {
   subscriptionAccent: colors.secondary,
 };
 
+// Export default Colors object with both light and dark themes
 export default {
   light: {
-    text: colors.text,
-    background: colors.background,
-    tint: colors.primary,
-    tabIconDefault: colors.textSecondary,
-    tabIconSelected: colors.primary,
+    text: lightColors.text,
+    background: lightColors.background,
+    tint: lightColors.primary,
+    tabIconDefault: lightColors.textSecondary,
+    tabIconSelected: lightColors.primary,
   },
+  dark: {
+    text: darkColors.text,
+    background: darkColors.background,
+    tint: darkColors.primary,
+    tabIconDefault: darkColors.textSecondary,
+    tabIconSelected: darkColors.primary,
+  }
 };

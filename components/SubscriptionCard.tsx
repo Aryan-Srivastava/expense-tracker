@@ -1,8 +1,9 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Subscription } from '@/types';
 import { Image } from 'expo-image';
 import { Calendar } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface SubscriptionCardProps {
@@ -10,7 +11,12 @@ interface SubscriptionCardProps {
   onPress?: () => void;
 }
 
-const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ subscription, onPress }) => {
+export default function SubscriptionCard({ subscription, onPress }: SubscriptionCardProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -48,6 +54,79 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ subscription, onPre
       return `In ${diffDays} days`;
     }
   };
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 12,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    pressed: {
+      opacity: 0.9,
+      transform: [{ scale: 0.98 }],
+    },
+    iconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 12,
+      overflow: 'hidden',
+      marginRight: 16,
+    },
+    icon: {
+      width: '100%',
+      height: '100%',
+    },
+    detailsContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
+    name: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    description: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 6,
+    },
+    billingContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    calendarIcon: {
+      marginRight: 4,
+    },
+    billingText: {
+      fontSize: 12,
+      color: colors.textSecondary,
+    },
+    priceContainer: {
+      alignItems: 'flex-end',
+      justifyContent: 'center',
+      paddingLeft: 16,
+    },
+    price: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    cycle: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginTop: 2,
+    },
+  });
   
   return (
     <Pressable
@@ -89,76 +168,4 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ subscription, onPre
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  pressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.98 }],
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    overflow: 'hidden',
-    marginRight: 16,
-  },
-  icon: {
-    width: '100%',
-    height: '100%',
-  },
-  detailsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  name: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 6,
-  },
-  billingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  calendarIcon: {
-    marginRight: 4,
-  },
-  billingText: {
-    fontSize: 12,
-    color: colors.textSecondary,
-  },
-  priceContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingLeft: 16,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  cycle: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 2,
-  },
-});
-
-export default SubscriptionCard;
+// Styles are now defined inside the component
