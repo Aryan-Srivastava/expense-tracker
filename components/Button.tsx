@@ -1,6 +1,5 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 interface ButtonProps {
@@ -28,11 +27,7 @@ export default function Button({
   fullWidth = false,
   style,
 }: ButtonProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
   
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const getContainerStyle = () => {
     const containerStyle: ViewStyle = { ...styles.container };
     

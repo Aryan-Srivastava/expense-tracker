@@ -1,9 +1,8 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import { Subscription } from '@/types';
 import { Image } from 'expo-image';
 import { Calendar } from 'lucide-react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface SubscriptionCardProps {
@@ -12,11 +11,7 @@ interface SubscriptionCardProps {
 }
 
 export default function SubscriptionCard({ subscription, onPress }: SubscriptionCardProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
   
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {

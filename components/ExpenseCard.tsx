@@ -1,9 +1,8 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import { Expense } from '@/types';
 import { Image } from 'expo-image';
 import { ArrowUpRight } from 'lucide-react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ExpenseCardProps {
@@ -35,12 +34,6 @@ const formatDate = (dateString: string) => {
 };
 
 export default function ExpenseCard({ expense, onPress }: ExpenseCardProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
-  
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
-  
   // Define styles inside component to ensure they update with theme changes
   const styles = StyleSheet.create({
     container: {
@@ -125,6 +118,7 @@ export default function ExpenseCard({ expense, onPress }: ExpenseCardProps) {
       color: colors.error,
     },
   });
+  
   return (
     <Pressable
       style={({ pressed }) => [

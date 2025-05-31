@@ -1,7 +1,6 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import { Search, X } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Animated, Pressable, StyleSheet, TextInput } from 'react-native';
 
 interface SearchBarProps {
@@ -17,11 +16,6 @@ export default function SearchBar({
   onClear,
   placeholder = 'Search...',
 }: SearchBarProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
-  
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const [isFocused, setIsFocused] = useState(false);
   const animatedValue = new Animated.Value(0);
 

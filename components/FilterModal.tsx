@@ -1,18 +1,17 @@
 import Button from '@/components/Button';
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Calendar, X } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    Modal,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 interface FilterModalProps {
@@ -41,11 +40,6 @@ export default function FilterModal({
   tags,
   categories,
 }: FilterModalProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
-  
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const [selectedTags, setSelectedTags] = useState<string[]>(initialFilters?.tags || []);
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialFilters?.categories || []

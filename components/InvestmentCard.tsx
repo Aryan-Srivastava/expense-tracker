@@ -1,8 +1,7 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import { Investment } from '@/types';
 import { TrendingDown, TrendingUp } from 'lucide-react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface InvestmentCardProps {
@@ -11,11 +10,7 @@ interface InvestmentCardProps {
 }
 
 export default function InvestmentCard({ investment, onPress }: InvestmentCardProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
   
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const profitLoss = (investment.currentPrice - investment.purchasePrice) * investment.quantity;
   const profitLossPercentage = ((investment.currentPrice - investment.purchasePrice) / investment.purchasePrice) * 100;
   const isProfit = profitLoss >= 0;

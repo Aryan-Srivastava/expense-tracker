@@ -1,8 +1,7 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
 import { Group } from '@/types';
 import { Image } from 'expo-image';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface GroupCardProps {
@@ -12,14 +11,101 @@ interface GroupCardProps {
 }
 
 export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
-  const { activeTheme } = useThemeContext();
-  
-  // Force re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
-
   // Calculate how many members to show and how many are remaining
   const visibleMembers = group.members.slice(0, 3);
   const remainingMembers = Math.max(0, group.members.length - 3);
+
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 12,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    pressed: {
+      opacity: 0.9,
+      transform: [{ scale: 0.98 }],
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    name: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+      flexShrink: 1,
+      marginRight: 12, // Add more margin to prevent overlap with balance
+      flex: 1, // Take available space but allow shrinking
+    },
+    balance: {
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    positive: {
+      color: colors.success,
+    },
+    negative: {
+      color: colors.error,
+    },
+    neutral: {
+      color: colors.textSecondary,
+    },
+    membersContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    avatarsContainer: {
+      flexDirection: 'row',
+      marginRight: 12,
+    },
+    avatarWrapper: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      borderWidth: 2,
+      borderColor: colors.white,
+      overflow: 'hidden',
+    },
+    avatar: {
+      width: '100%',
+      height: '100%',
+    },
+    remainingWrapper: {
+      backgroundColor: colors.primaryLight,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    remainingText: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    membersText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    footer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    expensesText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+    updatedText: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+  });  
   
   return (
     <Pressable
@@ -103,97 +189,3 @@ const formatDate = (dateString: string) => {
     });
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  pressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.98 }],
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-    flexShrink: 1,
-    marginRight: 12, // Add more margin to prevent overlap with balance
-    flex: 1, // Take available space but allow shrinking
-  },
-  balance: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  positive: {
-    color: colors.success,
-  },
-  negative: {
-    color: colors.error,
-  },
-  neutral: {
-    color: colors.textSecondary,
-  },
-  membersContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  avatarsContainer: {
-    flexDirection: 'row',
-    marginRight: 12,
-  },
-  avatarWrapper: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 2,
-    borderColor: colors.white,
-    overflow: 'hidden',
-  },
-  avatar: {
-    width: '100%',
-    height: '100%',
-  },
-  remainingWrapper: {
-    backgroundColor: colors.primaryLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  remainingText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: colors.primary,
-  },
-  membersText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  expensesText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-  updatedText: {
-    fontSize: 14,
-    color: colors.textSecondary,
-  },
-});
-
-// Export is already at the component declaration

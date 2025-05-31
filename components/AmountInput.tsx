@@ -1,6 +1,5 @@
 import { colors } from '@/constants/Colors';
-import { useThemeContext } from '@/hooks/useThemeContext';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 interface AmountInputProps {
@@ -18,11 +17,7 @@ export default function AmountInput({
   error,
   style,
 }: AmountInputProps) {
-  // Get theme context to force re-render on theme change
-  const { activeTheme } = useThemeContext();
   
-  // Force component to re-render when theme changes
-  useEffect(() => {}, [activeTheme]);
   const handleChangeText = (text: string) => {
     // Only allow numbers and decimal point
     const sanitizedText = text.replace(/[^0-9.]/g, '');
