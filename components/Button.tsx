@@ -1,5 +1,6 @@
 import { colors } from '@/constants/Colors';
-import React from 'react';
+import { useThemeContext } from '@/hooks/useThemeContext';
+import React, { useEffect } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native';
 
 interface ButtonProps {
@@ -15,7 +16,7 @@ interface ButtonProps {
   style?: ViewStyle;
 }
 
-const Button: React.FC<ButtonProps> = ({
+export default function Button({
   title,
   onPress,
   variant = 'primary',
@@ -26,7 +27,12 @@ const Button: React.FC<ButtonProps> = ({
   iconPosition = 'left',
   fullWidth = false,
   style,
-}) => {
+}: ButtonProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const getContainerStyle = () => {
     const containerStyle: ViewStyle = { ...styles.container };
     
@@ -95,6 +101,36 @@ const Button: React.FC<ButtonProps> = ({
     return textStyle;
   };
   
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      borderRadius: 12,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      height: 48,
+    },
+    contentContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    pressed: {
+      opacity: 0.8,
+      transform: [{ scale: 0.98 }],
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    iconLeft: {
+      marginRight: 8,
+    },
+    iconRight: {
+      marginLeft: 8,
+    },
+  });
+  
   return (
     <Pressable
       style={({ pressed }) => {
@@ -125,33 +161,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    height: 48,
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  pressed: {
-    opacity: 0.8,
-    transform: [{ scale: 0.98 }],
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  iconLeft: {
-    marginRight: 8,
-  },
-  iconRight: {
-    marginLeft: 8,
-  },
-});
-
-export default Button;
+// Styles are now defined inside the component

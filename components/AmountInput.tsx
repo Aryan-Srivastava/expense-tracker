@@ -1,5 +1,6 @@
 import { colors } from '@/constants/Colors';
-import React from 'react';
+import { useThemeContext } from '@/hooks/useThemeContext';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 interface AmountInputProps {
@@ -10,13 +11,18 @@ interface AmountInputProps {
   style?: any;
 }
 
-const AmountInput: React.FC<AmountInputProps> = ({
+export default function AmountInput({
   value,
   onChangeText,
   label,
   error,
   style,
-}) => {
+}: AmountInputProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const handleChangeText = (text: string) => {
     // Only allow numbers and decimal point
     const sanitizedText = text.replace(/[^0-9.]/g, '');
@@ -32,6 +38,47 @@ const AmountInput: React.FC<AmountInputProps> = ({
     onChangeText(sanitizedText);
   };
 
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      marginBottom: 16,
+    },
+    label: {
+      fontSize: 14,
+      color: colors.text,
+      marginBottom: 8,
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      height: 48,
+      paddingHorizontal: 12,
+    },
+    inputError: {
+      borderColor: colors.error,
+    },
+    currency: {
+      fontSize: 16,
+      color: colors.text,
+      marginRight: 4,
+    },
+    input: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+      padding: 0,
+    },
+    errorText: {
+      fontSize: 12,
+      color: colors.error,
+      marginTop: 4,
+    },
+  });
+  
   return (
     <View style={[styles.container, style]}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -51,44 +98,4 @@ const AmountInput: React.FC<AmountInputProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 14,
-    color: colors.text,
-    marginBottom: 8,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    height: 48,
-    paddingHorizontal: 12,
-  },
-  inputError: {
-    borderColor: colors.error,
-  },
-  currency: {
-    fontSize: 16,
-    color: colors.text,
-    marginRight: 4,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: colors.text,
-    padding: 0,
-  },
-  errorText: {
-    fontSize: 12,
-    color: colors.error,
-    marginTop: 4,
-  },
-});
-
-export default AmountInput;
+// Styles are now defined inside the component

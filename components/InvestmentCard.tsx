@@ -1,7 +1,8 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Investment } from '@/types';
 import { TrendingDown, TrendingUp } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface InvestmentCardProps {
@@ -9,7 +10,12 @@ interface InvestmentCardProps {
   onPress?: () => void;
 }
 
-const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment, onPress }) => {
+export default function InvestmentCard({ investment, onPress }: InvestmentCardProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const profitLoss = (investment.currentPrice - investment.purchasePrice) * investment.quantity;
   const profitLossPercentage = ((investment.currentPrice - investment.purchasePrice) / investment.purchasePrice) * 100;
   const isProfit = profitLoss >= 0;
@@ -35,6 +41,104 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment, onPress }) 
         return 'Other';
     }
   };
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 12,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    pressed: {
+      opacity: 0.9,
+      transform: [{ scale: 0.98 }],
+    },
+    header: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 12,
+    },
+    name: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    typeContainer: {
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 4,
+      backgroundColor: colors.primaryLight,
+    },
+    stockType: {
+      backgroundColor: colors.primaryLight,
+    },
+    fundType: {
+      backgroundColor: colors.secondaryLight,
+    },
+    cryptoType: {
+      backgroundColor: colors.accentLight,
+    },
+    typeText: {
+      fontSize: 12,
+      fontWeight: '500',
+      color: colors.primary,
+    },
+    detailsContainer: {
+      marginTop: 8,
+    },
+    priceContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 16,
+    },
+    currentPrice: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    changeContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    changeIcon: {
+      marginRight: 4,
+    },
+    changePercentage: {
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    profit: {
+      color: colors.success,
+    },
+    loss: {
+      color: colors.error,
+    },
+    statsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    statItem: {
+      flex: 1,
+    },
+    statLabel: {
+      fontSize: 12,
+      color: colors.textSecondary,
+      marginBottom: 4,
+    },
+    statValue: {
+      fontSize: 14,
+      fontWeight: '500',
+      color: colors.text,
+    },
+  });
   
   return (
     <Pressable
@@ -112,101 +216,4 @@ const InvestmentCard: React.FC<InvestmentCardProps> = ({ investment, onPress }) 
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.white,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  pressed: {
-    opacity: 0.9,
-    transform: [{ scale: 0.98 }],
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  typeContainer: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-    backgroundColor: colors.primaryLight,
-  },
-  stockType: {
-    backgroundColor: colors.primaryLight,
-  },
-  fundType: {
-    backgroundColor: colors.secondaryLight,
-  },
-  cryptoType: {
-    backgroundColor: colors.accentLight,
-  },
-  typeText: {
-    fontSize: 12,
-    fontWeight: '500',
-    color: colors.primary,
-  },
-  detailsContainer: {
-    marginTop: 8,
-  },
-  priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  currentPrice: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.text,
-  },
-  changeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  changeIcon: {
-    marginRight: 4,
-  },
-  changePercentage: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  profit: {
-    color: colors.success,
-  },
-  loss: {
-    color: colors.error,
-  },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  statItem: {
-    flex: 1,
-  },
-  statLabel: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  statValue: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: colors.text,
-  },
-});
-
-export default InvestmentCard;
+// Styles are now defined inside the component

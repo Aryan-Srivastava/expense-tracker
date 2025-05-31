@@ -1,6 +1,7 @@
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import { Search, X } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, TextInput } from 'react-native';
 
 interface SearchBarProps {
@@ -10,12 +11,17 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
+export default function SearchBar({
   value,
   onChangeText,
   onClear,
   placeholder = 'Search...',
-}) => {
+}: SearchBarProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const [isFocused, setIsFocused] = useState(false);
   const animatedValue = new Animated.Value(0);
 
@@ -49,6 +55,38 @@ const SearchBar: React.FC<SearchBarProps> = ({
     outputRange: [colors.border, colors.primary],
   });
 
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 16,
+      paddingHorizontal: 16,
+      height: 48,
+      borderWidth: 1,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 1 },
+      shadowRadius: 4,
+    },
+    searchIcon: {
+      marginRight: 12,
+      opacity: 0.7,
+    },
+    input: {
+      flex: 1,
+      height: '100%',
+      fontSize: 16,
+      color: colors.text,
+      padding: 0,
+      fontWeight: '400',
+    },
+    clearButton: {
+      padding: 4,
+      opacity: 0.8,
+    },
+  });
+  
   return (
     <Animated.View
       style={[
@@ -94,36 +132,4 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    height: 48,
-    borderWidth: 1,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 4,
-  },
-  searchIcon: {
-    marginRight: 12,
-    opacity: 0.7,
-  },
-  input: {
-    flex: 1,
-    height: '100%',
-    fontSize: 16,
-    color: colors.text,
-    padding: 0,
-    fontWeight: '400',
-  },
-  clearButton: {
-    padding: 4,
-    opacity: 0.8,
-  },
-});
-
-export default SearchBar;
-
+// Styles are now defined inside the component

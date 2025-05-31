@@ -1,8 +1,9 @@
 import Button from '@/components/Button';
 import { colors } from '@/constants/Colors';
+import { useThemeContext } from '@/hooks/useThemeContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Calendar, X } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Modal,
     Platform,
@@ -10,6 +11,7 @@ import {
     ScrollView,
     StyleSheet,
     Text,
+    TextInput,
     View,
 } from 'react-native';
 
@@ -31,14 +33,19 @@ export interface FilterOptions {
   maxAmount: number | null;
 }
 
-const FilterModal: React.FC<FilterModalProps> = ({
+export default function FilterModal({
   visible,
   onClose,
   onApplyFilters,
   initialFilters,
   tags,
   categories,
-}) => {
+}: FilterModalProps) {
+  // Get theme context to force re-render on theme change
+  const { activeTheme } = useThemeContext();
+  
+  // Force component to re-render when theme changes
+  useEffect(() => {}, [activeTheme]);
   const [selectedTags, setSelectedTags] = useState<string[]>(initialFilters?.tags || []);
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     initialFilters?.categories || []
@@ -116,6 +123,146 @@ const FilterModal: React.FC<FilterModalProps> = ({
     setMinAmount('');
     setMaxAmount('');
   };
+  
+  // Define styles inside component to ensure they update with theme changes
+  const styles = StyleSheet.create({
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      backgroundColor: colors.background,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      height: '80%',
+    },
+    modalHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    closeButton: {
+      padding: 4,
+    },
+    scrollContent: {
+      flex: 1,
+    },
+    section: {
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    tagButton: {
+      backgroundColor: colors.card,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      marginBottom: 8,
+    },
+    selectedTagButton: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    tagButtonText: {
+      fontSize: 14,
+      color: colors.text,
+    },
+    selectedTagButtonText: {
+      color: colors.white,
+      fontWeight: '500',
+    },
+    dateContainer: {
+      marginBottom: 16,
+    },
+    dateLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 8,
+    },
+    dateButton: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 8,
+      padding: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    dateText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    amountContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      gap: 12,
+    },
+    amountInputContainer: {
+      flex: 1,
+    },
+    amountLabel: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginBottom: 8,
+    },
+    amountInputWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.card,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      paddingHorizontal: 12,
+    },
+    currencySymbol: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginRight: 8,
+    },
+    amountInput: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+      padding: 12,
+    },
+    buttonContainer: {
+      flexDirection: 'row',
+      padding: 20,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+      gap: 12,
+    },
+    resetButton: {
+      flex: 1,
+    },
+    applyButton: {
+      flex: 2,
+    },
+  });
   
   return (
     <Modal
@@ -288,145 +435,4 @@ const FilterModal: React.FC<FilterModalProps> = ({
   );
 };
 
-import { TextInput } from 'react-native';
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: colors.background,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    height: '80%',
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  closeButton: {
-    padding: 4,
-  },
-  scrollContent: {
-    flex: 1,
-  },
-  section: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: colors.text,
-    marginBottom: 16,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tagButton: {
-    backgroundColor: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginBottom: 8,
-  },
-  selectedTagButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  tagButtonText: {
-    fontSize: 14,
-    color: colors.text,
-  },
-  selectedTagButtonText: {
-    color: colors.white,
-    fontWeight: '500',
-  },
-  dateContainer: {
-    marginBottom: 16,
-  },
-  dateLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  dateButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  dateText: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  amountContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  amountInputContainer: {
-    flex: 1,
-  },
-  amountLabel: {
-    fontSize: 14,
-    color: colors.textSecondary,
-    marginBottom: 8,
-  },
-  amountInputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    paddingHorizontal: 12,
-  },
-  currencySymbol: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginRight: 8,
-  },
-  amountInput: {
-    flex: 1,
-    fontSize: 16,
-    color: colors.text,
-    padding: 12,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    gap: 12,
-  },
-  resetButton: {
-    flex: 1,
-  },
-  applyButton: {
-    flex: 2,
-  },
-});
-
-export default FilterModal;
+// Styles are now defined inside the component
