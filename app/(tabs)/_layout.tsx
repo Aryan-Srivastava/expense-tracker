@@ -1,7 +1,7 @@
 import { colors } from '@/constants/Colors';
 import { useThemeContext } from '@/hooks/useThemeContext';
 import { Tabs } from 'expo-router';
-import { CreditCard, Home, PieChart, Settings, Users } from 'lucide-react-native';
+import { Home, PieChart, Settings, Users } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 
 export default function TabLayout() {
@@ -20,7 +20,7 @@ export default function TabLayout() {
         tabBarInactiveTintColor: colors.textSecondary,
         tabBarStyle: {
           borderTopWidth: 1,
-          borderTopColor: colors.border,
+          borderColor: colors.border,
           height: 60,
           paddingBottom: 8,
           paddingTop: 8,
@@ -65,14 +65,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="investments"
         options={{
           title: 'Investments',
           tabBarLabel: 'Invest',
           tabBarIcon: ({ color, size }) => <CreditCard size={size} color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="settings"
         options={{

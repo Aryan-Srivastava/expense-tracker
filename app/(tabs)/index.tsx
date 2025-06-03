@@ -174,6 +174,10 @@ export default function DashboardScreen() {
       minWidth: 60, // Ensure minimum width for the text
       textAlign: 'center', // Center-align the text
       fontWeight: '500',
+      backgroundColor: colors.card,
+      borderRadius: 8,
+      paddingBlock: 4,
+      paddingInline: 12,
     },
     emptyContainer: {
       padding: 20,

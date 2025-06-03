@@ -43,6 +43,9 @@ const ThemeItem: React.FC<ThemeItemProps> = ({
     selectedThemeItem: {
       backgroundColor: colors.primary,
     },
+    selectedThemeItemText: {
+      color: colors.white,
+    },
     themeIconContainer: {
       width: 48,
       height: 48,
@@ -88,7 +91,7 @@ const ThemeItem: React.FC<ThemeItemProps> = ({
     >
       <View style={styles.themeIconContainer}>{icon}</View>
       <View style={styles.themeContent}>
-        <Text style={styles.themeTitle}>{title}</Text>
+        <Text style={[styles.themeTitle, isSelected && styles.selectedThemeItemText]}>{title}</Text>
         <Text style={styles.themeDescription}>{description}</Text>
       </View>
       {isSelected && (

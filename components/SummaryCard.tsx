@@ -37,9 +37,9 @@ export default function SummaryCard({
       padding: 16,
       shadowColor: colors.text,
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.05,
-      shadowRadius: 8,
-      elevation: 2,
+      // shadowOpacity: 0.05,
+      // shadowRadius: 8,
+      // elevation: 2,
       minWidth: 150,
     },
     header: {
