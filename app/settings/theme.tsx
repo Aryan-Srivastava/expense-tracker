@@ -1,11 +1,12 @@
+import { useToast } from '@/components/ui/Toast';
 import { colors } from '@/constants/Colors';
 import { useSettingsStore } from '@/hooks/useSettingsStore';
 import { useThemeContext } from '@/hooks/useThemeContext';
 import { UserSettings } from '@/types';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { Check, Moon, Smartphone, Sun } from 'lucide-react-native';
 import React from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 type ThemeOption = UserSettings['theme'];
 
@@ -100,18 +101,27 @@ const ThemeItem: React.FC<ThemeItemProps> = ({
 };
 
 export default function ThemeScreen() {
-  const router = useRouter();
   const { settings, updateSettings } = useSettingsStore();
-  const { theme: currentTheme, setTheme } = useThemeContext();
+  const { setTheme } = useThemeContext();
+
+  const { showToast } = useToast();
+  
+  const handleToast = (themeName: string) => {
+    showToast({
+      message: `${themeName.slice(0, 1).toUpperCase() + themeName.slice(1)} Theme updated successfully!`,
+      type: "success",
+      position: "top-right",
+      animation: "slide-left",
+      duration: 2000,
+      showTimebar: false
+    });
+  };
 
   const handleThemeSelect = (theme: ThemeOption) => {
     // Update the theme in both the settings store and theme context
     updateSettings({ theme });
     setTheme(theme);
-    
-    Alert.alert('Success', 'Theme updated successfully.', [
-      { text: 'OK', onPress: () => router.back() }
-    ]);
+    handleToast(theme);
   };
 
   const styles = StyleSheet.create({
