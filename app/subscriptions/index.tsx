@@ -1,5 +1,6 @@
 import SearchBar from '@/components/SearchBar';
 import SubscriptionCard from '@/components/SubscriptionCard';
+import { ThemedView } from '@/components/ThemedView';
 import { colors } from '@/constants/Colors';
 import { useSubscriptionStore } from '@/hooks/useSubscriptionStore';
 import { Stack } from 'expo-router';
@@ -20,54 +21,53 @@ export default function SubscriptionsScreen() {
     );
   }, [subscriptions, searchQuery]);
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    list: {
+      padding: 16,
+    },
+    searchContainer: {
+      margin: 16,
+    },
+  });
+
   return (
-    <>
+    <ThemedView style={styles.container}>
       <Stack.Screen 
-        options={{ 
+        options={{
           title: 'Subscriptions',
-          headerLargeTitle: true,
-          headerSearchBarOptions: {
-            hideWhenScrolling: false
-          }
+          headerShadowVisible: false,
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
         }} 
       />
       
-      <View style={styles.container}>
+      <View style={styles.searchContainer}>
         <SearchBar
           placeholder="Search subscriptions..."
           value={searchQuery}
           onChangeText={setSearchQuery}
-          style={styles.searchBar}
-        />
-        
-        <FlatList
-          data={filteredSubscriptions}
-          keyExtractor={item => item.id}
-          renderItem={({ item }) => (
-            <SubscriptionCard
-              subscription={item}
-              onPress={() => {
-                // TODO: Navigate to subscription details
-              }}
-            />
-          )}
-          contentContainerStyle={styles.list}
-          showsVerticalScrollIndicator={false}
         />
       </View>
-    </>
+
+      <FlatList
+        data={filteredSubscriptions}
+        renderItem={({ item }) => (
+          <SubscriptionCard
+            subscription={item}
+            onPress={() => {
+              // TODO: Navigate to subscription detail screen
+            }}
+          />
+        )}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.list}
+        showsVerticalScrollIndicator={false}
+      />
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  searchBar: {
-    margin: 16,
-  },
-  list: {
-    padding: 16,
-  },
-});

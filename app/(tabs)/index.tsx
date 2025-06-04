@@ -322,7 +322,7 @@ export default function DashboardScreen() {
           <Text style={styles.sectionTitle}>Upcoming Subscriptions</Text>
           <Pressable 
             style={styles.seeAllButton}
-            onPress={() => router.push('/expenses')}
+            onPress={() => router.push('/subscriptions/all')}
           >
             <Text style={styles.seeAllText}>See All</Text>
           </Pressable>
@@ -333,7 +333,7 @@ export default function DashboardScreen() {
             <SubscriptionCard
               key={subscription.id}
               subscription={subscription}
-              onPress={() => router.push(`/expenses`)}
+              onPress={() => router.push(`/subscriptions/all`)}
             />
           ))
         ) : (

@@ -96,6 +96,10 @@ export default function ExpensesScreen() {
       paddingHorizontal: 20,
       paddingVertical: 16,
       gap: 12,
+      width: '100%',
+    },
+    searchBar: {
+      flex: 1,
     },
     filterButton: {
       width: 48,
@@ -151,11 +155,13 @@ export default function ExpensesScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
-        <SearchBar
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Search expenses..."
-        />
+        <View style={styles.searchBar}>
+          <SearchBar
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Search expenses..."
+          />
+        </View>
         <Pressable 
           style={[
             styles.filterButton,

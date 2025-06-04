@@ -4,7 +4,7 @@ import { useExpenseStore } from '@/hooks/useExpenseStore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   Platform,
@@ -41,6 +41,100 @@ export default function EditExpenseScreen() {
       setDate(new Date(expense.date));
     }
   }, [expense]);
+
+  const styles = useMemo(() => StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    formContainer: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    inputGroup: {
+      marginBottom: 20,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    input: {
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: colors.text,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    textArea: {
+      minHeight: 80,
+    },
+    dateInput: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    dateText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    tagButton: {
+      backgroundColor: colors.background,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      marginBottom: 8,
+    },
+    selectedTagButton: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    tagButtonText: {
+      fontSize: 14,
+      color: colors.text,
+    },
+    selectedTagButtonText: {
+      color: colors.white,
+      fontWeight: '500',
+    },
+    buttonContainer: {
+      padding: 20,
+      paddingTop: 0,
+    },
+  }), []);
   
   if (!expense) {
     return (
@@ -229,97 +323,3 @@ export default function EditExpenseScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  formContainer: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: colors.text,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  textArea: {
-    minHeight: 80,
-  },
-  dateInput: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  dateText: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tagButton: {
-    backgroundColor: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginBottom: 8,
-  },
-  selectedTagButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  tagButtonText: {
-    fontSize: 14,
-    color: colors.text,
-  },
-  selectedTagButtonText: {
-    color: colors.white,
-    fontWeight: '500',
-  },
-  buttonContainer: {
-    padding: 20,
-    paddingTop: 0,
-  },
-});

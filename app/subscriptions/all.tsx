@@ -5,7 +5,7 @@ import { colors } from '@/constants/Colors';
 import { useSubscriptionStore } from '@/hooks/useSubscriptionStore';
 import { Stack } from 'expo-router';
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 export default function AllSubscriptionsScreen() {
   const { subscriptions } = useSubscriptionStore();
@@ -27,15 +27,18 @@ export default function AllSubscriptionsScreen() {
           title: 'All Subscriptions',
           headerShadowVisible: false,
           headerStyle: { backgroundColor: colors.background },
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
         }} 
       />
       
-      <SearchBar
-        placeholder="Search subscriptions..."
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-        style={styles.searchBar}
-      />
+      <View style={styles.searchContainer}>
+        <SearchBar
+          placeholder="Search subscriptions..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
 
       <FlatList
         data={filteredSubscriptions}
@@ -60,11 +63,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  searchBar: {
-    marginHorizontal: 16,
-    marginVertical: 12,
-  },
   list: {
     padding: 16,
+  },
+  searchContainer: {
+    margin: 16,
+    marginBottom: 0
   },
 });

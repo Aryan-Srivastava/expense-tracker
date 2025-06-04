@@ -44,6 +44,7 @@ export default function ExpenseDetailScreen() {
       fontSize: 16,
       color: colors.textSecondary,
       marginBottom: 8,
+      fontWeight: '500',
     },
     amount: {
       fontSize: 36,
