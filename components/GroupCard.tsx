@@ -62,6 +62,7 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 16,
+      flexWrap: 'wrap',
     },
     avatarsContainer: {
       flexDirection: 'row',
@@ -92,19 +93,25 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
     membersText: {
       fontSize: 14,
       color: colors.textSecondary,
+      flexGrow: 1,
     },
     footer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
     },
     expensesText: {
       fontSize: 14,
       color: colors.textSecondary,
+      flexShrink: 1,
+      flexGrow: 1,
     },
     updatedText: {
       fontSize: 14,
       color: colors.textSecondary,
-    },
+      flexShrink: 1,
+      textAlign: 'right',
+    },    
   });  
   
   return (
@@ -159,12 +166,16 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
       </View>
       
       <View style={styles.footer}>
-        <Text style={styles.expensesText}>
-          {group.expenses.length} {group.expenses.length === 1 ? 'expense' : 'expenses'}
-        </Text>
-        <Text style={styles.updatedText}>
-          Updated {formatDate(group.updatedAt)}
-        </Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.expensesText}>
+            {group.expenses.length} {group.expenses.length === 1 ? 'expense' : 'expenses'}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.updatedText} numberOfLines={1} ellipsizeMode="tail">
+            Updated {formatDate(group.updatedAt)}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );

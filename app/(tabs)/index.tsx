@@ -177,7 +177,8 @@ export default function DashboardScreen() {
       backgroundColor: colors.card,
       borderRadius: 8,
       paddingBlock: 4,
-      paddingInline: 12,
+      paddingInline: 16,
+      marginRight: -12,
     },
     emptyContainer: {
       padding: 20,

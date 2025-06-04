@@ -87,6 +87,7 @@ export default function GroupDetailScreen() {
       fontSize: 14,
       color: colors.primary,
       marginTop: 4,
+      fontWeight: '500',
     },
     tabsContainer: {
       flexDirection: 'row',
@@ -207,6 +208,7 @@ export default function GroupDetailScreen() {
     splitName: {
       fontSize: 14,
       color: colors.text,
+      fontWeight: '500',
     },
     splitAmountContainer: {
       flexDirection: 'row',
@@ -221,6 +223,7 @@ export default function GroupDetailScreen() {
     settledText: {
       fontSize: 14,
       color: colors.success,
+      fontWeight: '500',
     },
     memberCard: {
       flexDirection: 'row',
@@ -419,6 +422,9 @@ export default function GroupDetailScreen() {
               <MoreVertical size={24} color={colors.text} />
             </Pressable>
           ),
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text },
+          headerTintColor: colors.text
         }}
       />
       
