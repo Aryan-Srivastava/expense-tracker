@@ -6,14 +6,14 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    Alert,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 export default function AddGroupExpenseScreen() {
@@ -30,7 +30,7 @@ export default function AddGroupExpenseScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [splitType, setSplitType] = useState<'equal' | 'custom'>('equal');
   const [selectedMembers, setSelectedMembers] = useState<Record<string, boolean>>({});
-  
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -247,8 +247,15 @@ export default function AddGroupExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Add Group Expense' }} />
-      
+      <Stack.Screen 
+        options={{ 
+          title: 'Add Group Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text },
+          headerTintColor: colors.text
+        }} 
+      />
+
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
           <View style={styles.inputGroup}>

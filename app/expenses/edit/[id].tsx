@@ -6,14 +6,14 @@ import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 export default function EditExpenseScreen() {
@@ -101,7 +101,14 @@ export default function EditExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Edit Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Edit Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>

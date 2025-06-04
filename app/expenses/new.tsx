@@ -6,13 +6,13 @@ import { Stack, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 export default function NewExpenseScreen() {
@@ -70,7 +70,14 @@ export default function NewExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'New Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'New Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>

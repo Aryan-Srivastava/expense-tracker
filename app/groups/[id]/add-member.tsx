@@ -4,12 +4,12 @@ import { useGroupStore } from '@/hooks/useGroupStore';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
 export default function AddGroupMemberScreen() {
@@ -59,7 +59,14 @@ export default function AddGroupMemberScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Add Member' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Add Member', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.card}>

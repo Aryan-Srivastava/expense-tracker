@@ -12,7 +12,7 @@ export default function NewGroupScreen() {
   const [groupName, setGroupName] = useState('');
   const [memberName, setMemberName] = useState('');
   const [memberEmail, setMemberEmail] = useState('');
-  const [members, setMembers] = useState<Array<{ name: string; email?: string }>>([
+  const [members, setMembers] = useState<{ name: string; email?: string }[]>([
     { name: 'You', email: 'you@example.com' }, // Current user is always a member
   ]);
 
@@ -128,7 +128,14 @@ export default function NewGroupScreen() {
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Create New Group' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Create New Group',
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text },
+          headerTintColor: colors.text
+        }}
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.card}>

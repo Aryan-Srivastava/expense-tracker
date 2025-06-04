@@ -177,6 +177,9 @@ export default function ExpenseDetailScreen() {
               />
             </View>
           ),
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text
         }}
       />
       

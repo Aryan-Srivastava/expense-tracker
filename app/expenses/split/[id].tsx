@@ -328,7 +328,14 @@ export default function SplitExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Split Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Split Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.expenseCard}>

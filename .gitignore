@@ -41,3 +41,5 @@ app-example
 
 #Ignore windsurf AI rules
 .windsurfrules
+
+.env*
