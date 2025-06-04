@@ -16,6 +16,11 @@ import {
   View,
 } from 'react-native';
 
+/**
+ * Displays a screen for editing an existing expense entry.
+ *
+ * Presents a form pre-filled with the selected expense's details, allowing users to update fields such as name, description, amount, date, tag, and category. Validates required fields before saving changes and provides user feedback on success or error. If the expense is not found, shows an appropriate message and a navigation option to return.
+ */
 export default function EditExpenseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();

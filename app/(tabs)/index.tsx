@@ -12,6 +12,11 @@ import { ArrowDownRight, ArrowUpRight, Bell, Plus } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+/**
+ * Displays the main financial dashboard, summarizing monthly expenses, group balances, recent expenses, and upcoming subscriptions.
+ *
+ * Presents a greeting, budget progress, summary cards for group debts and subscriptions, a list of recent expenses, and upcoming subscriptions. Allows navigation to detailed expense and subscription screens and adapts its appearance to the active theme.
+ */
 export default function DashboardScreen() {
   const router = useRouter();
   const { expenses, getTotalExpenses } = useExpenseStore();

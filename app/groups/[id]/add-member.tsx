@@ -12,6 +12,13 @@ import {
   View,
 } from 'react-native';
 
+/**
+ * Displays a screen for adding a new member to a group.
+ *
+ * Presents input fields for the member's name and optional email, validates input, and adds the member to the group with a randomly assigned avatar. If the group is not found, shows an error message and a button to navigate back.
+ *
+ * @remark Navigates back to the previous screen upon successful addition or if the group is not found.
+ */
 export default function AddGroupMemberScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();

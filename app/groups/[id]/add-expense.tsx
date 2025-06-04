@@ -16,6 +16,14 @@ import {
   View,
 } from 'react-native';
 
+/**
+ * Displays a screen for adding a new expense to a group, allowing users to input expense details, select members to split with, and submit the expense.
+ *
+ * Presents a form for entering the expense name, description, amount, date, split type, and which group members are included in the split. Validates input and adds the expense to the group upon submission.
+ *
+ * @remark
+ * If the group is not found, a message is shown and the user can navigate back. The current user is assumed to have the ID 'user1' and is automatically marked as settled for the expense. Only equal split is currently implemented.
+ */
 export default function AddGroupExpenseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();

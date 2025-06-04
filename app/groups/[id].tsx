@@ -15,6 +15,11 @@ import {
   View
 } from 'react-native';
 
+/**
+ * Displays the details of a group, including its expenses and members, with interactive options to add, settle, or delete items.
+ *
+ * Renders a tabbed interface allowing users to view and manage group expenses and members. Provides navigation to add new expenses or members, settle individual expense splits, and delete the group. Handles missing group scenarios with a fallback UI.
+ */
 export default function GroupDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
