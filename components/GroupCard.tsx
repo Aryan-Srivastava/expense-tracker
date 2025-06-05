@@ -10,6 +10,11 @@ interface GroupCardProps {
   onPress?: () => void;
 }
 
+/**
+ * Displays a card summarizing a group's information, including its name, balance, member avatars, expense count, and last updated date.
+ *
+ * The card shows up to three member avatars with overlapping styling and a "+N" indicator if there are additional members. The balance is color-coded based on its value, and the footer displays the number of expenses and a human-readable last updated date. The card is pressable and triggers the optional {@link onPress} callback when tapped.
+ */
 export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
   // Calculate how many members to show and how many are remaining
   const visibleMembers = group.members.slice(0, 3);

@@ -5,6 +5,13 @@ import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
+/**
+ * React Native screen component for creating a new group with members.
+ *
+ * Allows users to input a group name, add members with optional emails, and create a group. The current user is always included as a member. Validates input fields and displays alerts for missing or insufficient information. On successful creation, the group is added to the store and the user is navigated back.
+ *
+ * @remark The group cannot be created unless a name is provided and at least two members (including the current user) are present.
+ */
 export default function NewGroupScreen() {
   const router = useRouter();
   const { addGroup } = useGroupStore();
