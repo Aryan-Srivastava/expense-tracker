@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { colors } from '@/constants/Colors';
 import { useSubscriptionStore } from '@/hooks/useSubscriptionStore';
 import { Stack } from 'expo-router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 export default function SubscriptionsScreen() {
@@ -21,7 +21,7 @@ export default function SubscriptionsScreen() {
     );
   }, [subscriptions, searchQuery]);
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.background,
@@ -32,7 +32,8 @@ export default function SubscriptionsScreen() {
     searchContainer: {
       margin: 16,
     },
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [colors]);
 
   return (
     <ThemedView style={styles.container}>

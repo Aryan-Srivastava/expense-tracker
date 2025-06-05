@@ -134,7 +134,8 @@ export default function EditExpenseScreen() {
       padding: 20,
       paddingTop: 0,
     },
-  }), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [colors]);
   
   if (!expense) {
     return (

@@ -4,7 +4,7 @@ import { useGroupStore } from '@/hooks/useGroupStore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Alert,
   Platform,
@@ -31,7 +31,7 @@ export default function AddGroupExpenseScreen() {
   const [splitType, setSplitType] = useState<'equal' | 'custom'>('equal');
   const [selectedMembers, setSelectedMembers] = useState<Record<string, boolean>>({});
 
-  const styles = StyleSheet.create({
+  const styles = useMemo(() => StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.background,
@@ -150,7 +150,8 @@ export default function AddGroupExpenseScreen() {
       paddingTop: 0,
       marginBottom: 20,
     },
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [colors]);
   
   if (!group) {
     return (
