@@ -4,18 +4,23 @@ import { useExpenseStore } from '@/hooks/useExpenseStore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-    Alert,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
+/**
+ * Displays a screen for editing an existing expense entry.
+ *
+ * Presents a form pre-filled with the selected expense's details, allowing users to update fields such as name, description, amount, date, tag, and category. Validates required fields before saving changes and provides user feedback on success or error. If the expense is not found, shows an appropriate message and a navigation option to return.
+ */
 export default function EditExpenseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -41,6 +46,101 @@ export default function EditExpenseScreen() {
       setDate(new Date(expense.date));
     }
   }, [expense]);
+
+  const styles = useMemo(() => StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    formContainer: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    inputGroup: {
+      marginBottom: 20,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    input: {
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: colors.text,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    textArea: {
+      minHeight: 80,
+    },
+    dateInput: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    dateText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    tagsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    tagButton: {
+      backgroundColor: colors.background,
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+      marginBottom: 8,
+    },
+    selectedTagButton: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    tagButtonText: {
+      fontSize: 14,
+      color: colors.text,
+    },
+    selectedTagButtonText: {
+      color: colors.white,
+      fontWeight: '500',
+    },
+    buttonContainer: {
+      padding: 20,
+      paddingTop: 0,
+    },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [colors]);
   
   if (!expense) {
     return (
@@ -101,7 +201,14 @@ export default function EditExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Edit Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Edit Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
@@ -222,97 +329,3 @@ export default function EditExpenseScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  formContainer: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: colors.text,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  textArea: {
-    minHeight: 80,
-  },
-  dateInput: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  dateText: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  tagButton: {
-    backgroundColor: colors.background,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginBottom: 8,
-  },
-  selectedTagButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  tagButtonText: {
-    fontSize: 14,
-    color: colors.text,
-  },
-  selectedTagButtonText: {
-    color: colors.white,
-    fontWeight: '500',
-  },
-  buttonContainer: {
-    padding: 20,
-    paddingTop: 0,
-  },
-});

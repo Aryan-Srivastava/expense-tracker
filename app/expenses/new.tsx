@@ -6,15 +6,22 @@ import { Stack, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
 import React, { useState } from 'react';
 import {
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
+/**
+ * Displays a screen for creating and saving a new expense entry.
+ *
+ * Presents a form for entering expense details such as name, description, amount, date, tag, and category. Validates required fields and saves the expense to the store upon submission.
+ *
+ * @remark If the name or amount fields are empty, an alert is shown and the expense is not saved.
+ */
 export default function NewExpenseScreen() {
   const router = useRouter();
   const { addExpense } = useExpenseStore();
@@ -70,7 +77,14 @@ export default function NewExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'New Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'New Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>

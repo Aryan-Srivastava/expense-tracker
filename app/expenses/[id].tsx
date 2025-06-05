@@ -6,6 +6,11 @@ import { Calendar, Edit2, Tag, Trash2 } from 'lucide-react-native';
 import React from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+/**
+ * Displays detailed information about a specific expense, including amount, name, description, date, tag, and category.
+ *
+ * Provides options to edit, delete, or split the expense with a group. If the expense is not found, shows a not found message with a back navigation option.
+ */
 export default function ExpenseDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -44,6 +49,7 @@ export default function ExpenseDetailScreen() {
       fontSize: 16,
       color: colors.textSecondary,
       marginBottom: 8,
+      fontWeight: '500',
     },
     amount: {
       fontSize: 36,
@@ -177,6 +183,9 @@ export default function ExpenseDetailScreen() {
               />
             </View>
           ),
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text
         }}
       />
       

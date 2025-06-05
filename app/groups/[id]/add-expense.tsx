@@ -4,18 +4,26 @@ import { useGroupStore } from '@/hooks/useGroupStore';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Calendar } from 'lucide-react-native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
-    Alert,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
+/**
+ * Displays a screen for adding a new expense to a group, allowing users to input expense details, select members to split with, and submit the expense.
+ *
+ * Presents a form for entering the expense name, description, amount, date, split type, and which group members are included in the split. Validates input and adds the expense to the group upon submission.
+ *
+ * @remark
+ * If the group is not found, a message is shown and the user can navigate back. The current user is assumed to have the ID 'user1' and is automatically marked as settled for the expense. Only equal split is currently implemented.
+ */
 export default function AddGroupExpenseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -30,6 +38,128 @@ export default function AddGroupExpenseScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [splitType, setSplitType] = useState<'equal' | 'custom'>('equal');
   const [selectedMembers, setSelectedMembers] = useState<Record<string, boolean>>({});
+
+  const styles = useMemo(() => StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    notFoundContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    notFoundText: {
+      fontSize: 18,
+      color: colors.textSecondary,
+      marginBottom: 20,
+    },
+    formContainer: {
+      backgroundColor: colors.white,
+      margin: 20,
+      borderRadius: 16,
+      padding: 20,
+      shadowColor: colors.text,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 8,
+      elevation: 2,
+    },
+    inputGroup: {
+      marginBottom: 20,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    input: {
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      color: colors.text,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    textArea: {
+      minHeight: 80,
+    },
+    dateInput: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    dateText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    splitTypeContainer: {
+      flexDirection: 'row',
+      gap: 12,
+    },
+    splitTypeButton: {
+      flex: 1,
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedSplitTypeButton: {
+      backgroundColor: colors.primary,
+      borderColor: colors.primary,
+    },
+    splitTypeText: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.text,
+    },
+    selectedSplitTypeText: {
+      color: colors.white,
+    },
+    memberItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: colors.background,
+      borderRadius: 8,
+      padding: 12,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedMemberItem: {
+      backgroundColor: colors.primaryLight,
+      borderColor: colors.primary,
+    },
+    memberName: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    selectedMemberName: {
+      fontWeight: '500',
+      color: colors.primary,
+    },
+    memberAmount: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: colors.primary,
+    },
+    buttonContainer: {
+      padding: 20,
+      paddingTop: 0,
+      marginBottom: 20,
+    },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [colors]);
   
   if (!group) {
     return (
@@ -126,8 +256,15 @@ export default function AddGroupExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Add Group Expense' }} />
-      
+      <Stack.Screen 
+        options={{ 
+          title: 'Add Group Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text },
+          headerTintColor: colors.text
+        }} 
+      />
+
       <ScrollView style={styles.container}>
         <View style={styles.formContainer}>
           <View style={styles.inputGroup}>
@@ -264,124 +401,3 @@ export default function AddGroupExpenseScreen() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  notFoundContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  notFoundText: {
-    fontSize: 18,
-    color: colors.textSecondary,
-    marginBottom: 20,
-  },
-  formContainer: {
-    backgroundColor: colors.white,
-    margin: 20,
-    borderRadius: 16,
-    padding: 20,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  inputGroup: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-    marginBottom: 8,
-  },
-  input: {
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    color: colors.text,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  textArea: {
-    minHeight: 80,
-  },
-  dateInput: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  dateText: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  splitTypeContainer: {
-    flexDirection: 'row',
-    gap: 12,
-  },
-  splitTypeButton: {
-    flex: 1,
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  selectedSplitTypeButton: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-  },
-  splitTypeText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.text,
-  },
-  selectedSplitTypeText: {
-    color: colors.white,
-  },
-  memberItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: colors.background,
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 8,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  selectedMemberItem: {
-    backgroundColor: colors.primaryLight,
-    borderColor: colors.primary,
-  },
-  memberName: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  selectedMemberName: {
-    fontWeight: '500',
-    color: colors.primary,
-  },
-  memberAmount: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.primary,
-  },
-  buttonContainer: {
-    padding: 20,
-    paddingTop: 0,
-    marginBottom: 20,
-  },
-});

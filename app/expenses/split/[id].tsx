@@ -17,6 +17,13 @@ import {
   View,
 } from 'react-native';
 
+/**
+ * React Native screen for splitting an expense among group members.
+ *
+ * Allows users to select a group, choose members, and split an expense either equally or with custom amounts. Validates selections and split amounts before submitting the expense to the selected group.
+ *
+ * @remark If the sum of custom split amounts does not match the total expense, submission is prevented and an error is shown.
+ */
 export default function SplitExpenseScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -328,7 +335,14 @@ export default function SplitExpenseScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Split Expense' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Split Expense', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.expenseCard}>

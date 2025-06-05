@@ -12,6 +12,11 @@ import { ArrowDownRight, ArrowUpRight, Bell, Plus } from 'lucide-react-native';
 import React, { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+/**
+ * Displays the main financial dashboard, summarizing monthly expenses, group balances, recent expenses, and upcoming subscriptions.
+ *
+ * Presents a greeting, budget progress, summary cards for group debts and subscriptions, a list of recent expenses, and upcoming subscriptions. Allows navigation to detailed expense and subscription screens and adapts its appearance to the active theme.
+ */
 export default function DashboardScreen() {
   const router = useRouter();
   const { expenses, getTotalExpenses } = useExpenseStore();
@@ -177,7 +182,8 @@ export default function DashboardScreen() {
       backgroundColor: colors.card,
       borderRadius: 8,
       paddingBlock: 4,
-      paddingInline: 12,
+      paddingInline: 16,
+      marginRight: -12,
     },
     emptyContainer: {
       padding: 20,
@@ -321,7 +327,7 @@ export default function DashboardScreen() {
           <Text style={styles.sectionTitle}>Upcoming Subscriptions</Text>
           <Pressable 
             style={styles.seeAllButton}
-            onPress={() => router.push('/expenses')}
+            onPress={() => router.push('/subscriptions/all')}
           >
             <Text style={styles.seeAllText}>See All</Text>
           </Pressable>
@@ -332,7 +338,7 @@ export default function DashboardScreen() {
             <SubscriptionCard
               key={subscription.id}
               subscription={subscription}
-              onPress={() => router.push(`/expenses`)}
+              onPress={() => router.push(`/subscriptions/all`)}
             />
           ))
         ) : (

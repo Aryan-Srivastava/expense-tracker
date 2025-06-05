@@ -4,14 +4,21 @@ import { useGroupStore } from '@/hooks/useGroupStore';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
 
+/**
+ * Displays a screen for adding a new member to a group.
+ *
+ * Presents input fields for the member's name and optional email, validates input, and adds the member to the group with a randomly assigned avatar. If the group is not found, shows an error message and a button to navigate back.
+ *
+ * @remark Navigates back to the previous screen upon successful addition or if the group is not found.
+ */
 export default function AddGroupMemberScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
@@ -59,7 +66,14 @@ export default function AddGroupMemberScreen() {
   
   return (
     <>
-      <Stack.Screen options={{ title: 'Add Member' }} />
+      <Stack.Screen 
+        options={{ 
+          title: 'Add Member', 
+          headerStyle: { backgroundColor: colors.card }, 
+          headerTitleStyle: { color: colors.text }, 
+          headerTintColor: colors.text 
+        }} 
+      />
       
       <ScrollView style={styles.container}>
         <View style={styles.card}>

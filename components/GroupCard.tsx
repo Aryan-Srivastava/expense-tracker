@@ -10,6 +10,11 @@ interface GroupCardProps {
   onPress?: () => void;
 }
 
+/**
+ * Displays a card summarizing a group's information, including its name, balance, member avatars, expense count, and last updated date.
+ *
+ * The card shows up to three member avatars with overlapping styling and a "+N" indicator if there are additional members. The balance is color-coded based on its value, and the footer displays the number of expenses and a human-readable last updated date. The card is pressable and triggers the optional {@link onPress} callback when tapped.
+ */
 export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
   // Calculate how many members to show and how many are remaining
   const visibleMembers = group.members.slice(0, 3);
@@ -62,6 +67,7 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 16,
+      flexWrap: 'wrap',
     },
     avatarsContainer: {
       flexDirection: 'row',
@@ -92,19 +98,25 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
     membersText: {
       fontSize: 14,
       color: colors.textSecondary,
+      flexGrow: 1,
     },
     footer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      flexWrap: 'wrap',
     },
     expensesText: {
       fontSize: 14,
       color: colors.textSecondary,
+      flexShrink: 1,
+      flexGrow: 1,
     },
     updatedText: {
       fontSize: 14,
       color: colors.textSecondary,
-    },
+      flexShrink: 1,
+      textAlign: 'right',
+    },    
   });  
   
   return (
@@ -159,12 +171,16 @@ export default function GroupCard({ group, balance, onPress }: GroupCardProps) {
       </View>
       
       <View style={styles.footer}>
-        <Text style={styles.expensesText}>
-          {group.expenses.length} {group.expenses.length === 1 ? 'expense' : 'expenses'}
-        </Text>
-        <Text style={styles.updatedText}>
-          Updated {formatDate(group.updatedAt)}
-        </Text>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.expensesText}>
+            {group.expenses.length} {group.expenses.length === 1 ? 'expense' : 'expenses'}
+          </Text>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.updatedText} numberOfLines={1} ellipsizeMode="tail">
+            Updated {formatDate(group.updatedAt)}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
