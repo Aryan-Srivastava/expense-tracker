@@ -13,6 +13,11 @@ import {
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
+/**
+ * Displays the settings screen for the app, allowing users to view and modify preferences, access support, and log out.
+ *
+ * The screen includes sections for user profile, preferences (such as expense limit, currency, notifications, and theme), support options, and app version information.
+ */
 export default function SettingsScreen() {
   const router = useRouter();
   const { settings, updateSettings } = useSettingsStore();
