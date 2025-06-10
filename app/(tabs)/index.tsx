@@ -13,9 +13,11 @@ import React, { useEffect } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 /**
- * Displays the main financial dashboard, summarizing monthly expenses, group balances, recent expenses, and upcoming subscriptions.
+ * Renders the main financial dashboard, providing an overview of monthly expenses, group balances, recent expenses, and upcoming subscriptions.
  *
- * Presents a greeting, budget progress, summary cards for group debts and subscriptions, a list of recent expenses, and upcoming subscriptions. Allows navigation to detailed expense and subscription screens and adapts its appearance to the active theme.
+ * Displays a personalized greeting, budget progress, summary cards for group debts and subscriptions, and lists of recent expenses and upcoming subscriptions. Supports navigation to detailed expense and subscription screens and adapts its appearance based on the active theme.
+ *
+ * @remark Assumes the current user has the ID 'user1' for group balance calculations.
  */
 export default function DashboardScreen() {
   const router = useRouter();
