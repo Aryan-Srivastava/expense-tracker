@@ -30,7 +30,7 @@ const LineChart: React.FC<LineChartProps> = ({
     dataPointText: `${currency}${item.value}`,
     label: item.label,
     labelTextStyle: {
-      color: isDark ? colors.textSecondary : colors.textSecondary,
+      color: colors.textSecondary,
       fontSize: 10,
     },
   }));
