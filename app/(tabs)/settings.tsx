@@ -55,6 +55,7 @@ export default function SettingsScreen() {
     profileEmail: {
       fontSize: 14,
       color: colors.textSecondary,
+      fontWeight: '400',
     },
     section: {
       backgroundColor: colors.white,

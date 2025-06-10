@@ -47,7 +47,7 @@ export default function DashboardScreen() {
   
   // Get upcoming subscriptions (next 7 days)
   const upcomingSubscriptions = getUpcomingSubscriptions(7);
-  
+
   // Calculate total owed and owes
   const totalOwed = getTotalOwed('user1'); // Assuming current user is 'user1'
   const totalOwes = getTotalOwes('user1');
@@ -224,7 +224,7 @@ export default function DashboardScreen() {
           <Bell size={24} color={colors.text} />
         </Pressable>
       </View>
-      
+
       <View style={styles.monthlyExpenseContainer}>
         <Text style={styles.monthlyExpenseTitle}>Monthly Expenses</Text>
         <View style={styles.monthlyExpenseContent}>
