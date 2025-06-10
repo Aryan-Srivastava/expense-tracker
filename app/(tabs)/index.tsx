@@ -1,7 +1,6 @@
 import ExpenseCard from '@/components/ExpenseCard';
 import SubscriptionCard from '@/components/SubscriptionCard';
 import SummaryCard from '@/components/SummaryCard';
-import { LineChart } from '@/components/ui/charts';
 import { colors } from '@/constants/Colors';
 import { useExpenseStore } from '@/hooks/useExpenseStore';
 import { useGroupStore } from '@/hooks/useGroupStore';
@@ -236,16 +235,7 @@ export default function DashboardScreen() {
           <Bell size={24} color={colors.text} />
         </Pressable>
       </View>
-      
-      {/* Weekly Expense Chart */}
-      <LineChart 
-        data={weeklyExpenseData}
-        title="Weekly Expenses"
-        legendText="Expenses"
-        showDataPoints={false}
-        color={colors.primary}
-      />
-      
+
       <View style={styles.monthlyExpenseContainer}>
         <Text style={styles.monthlyExpenseTitle}>Monthly Expenses</Text>
         <View style={styles.monthlyExpenseContent}>
