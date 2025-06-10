@@ -37,9 +37,16 @@ const LineChart: React.FC<LineChartProps> = ({
 
   // Calculate chart width with proper padding and spacing
   const screenWidth = Dimensions.get('window').width;
-  const chartWidth = screenWidth - 48; // Reduced padding to fit screen
-  const spacing = Math.max(25, (chartWidth - 80) / (chartData.length - 1));
-  const initialSpacing = 16; // Reduced initial spacing
+  const chartWidth = screenWidth - 48;
+  const spacing = chartData.length > 1 
+    ? Math.max(25, Math.min(100, (chartWidth - 80) / (chartData.length - 1)))
+    : 50;
+  const initialSpacing = 16;
+  // Calculate dynamic chart values
+  const maxDataValue = Math.max(...data.map(item => item.value));
+  const dynamicMaxValue = Math.ceil(maxDataValue * 1.2 / 100) * 100; // Round up to nearest 100
+  const dynamicStepValue = Math.max(50, Math.ceil(dynamicMaxValue / 4 / 50) * 50);
+  const referenceLineValue = Math.round(maxDataValue * 0.5);
 
   const styles = useMemo(() => StyleSheet.create({
     container: {
@@ -100,8 +107,17 @@ const LineChart: React.FC<LineChartProps> = ({
     },
   }), []);
 
-  return (
-    <View style={styles.container}>
+  if (!data || data.length === 0) {
+    return <Text style={{ color: colors.textSecondary, textAlign: 'center' }}>No data available</Text>;
+  }
+
+return (
+   <View 
+     style={styles.container}
+     accessible={true}
+     accessibilityRole="image"
+     accessibilityLabel={`Line chart showing ${title}. ${legendText}`}
+   >
       <Text style={[styles.title, { color: colors.text }]}>
         {title}
       </Text>
@@ -147,19 +163,18 @@ const LineChart: React.FC<LineChartProps> = ({
           hideDataPoints={!showDataPoints}
           curved
           isAnimated
-          animationDuration={1200}
-          showReferenceLine1
-          referenceLine1Position={200}
-          referenceLine1Config={{
-            color: isDark ? colors.border : colors.border,
-            dashWidth: 2,
-            dashGap: 4,
-            labelText: '',
-          }}
-          yAxisExtraHeight={30}
-          noOfSections={4}
-          maxValue={400}
-          stepValue={100}
+        showReferenceLine1
+       referenceLine1Position={referenceLineValue}
+        referenceLine1Config={{
+          color: colors.border,
+          dashWidth: 2,
+          dashGap: 4,
+          labelText: '',
+        }}
+        yAxisExtraHeight={30}
+        noOfSections={4}
+       maxValue={dynamicMaxValue}
+       stepValue={dynamicStepValue}
           yAxisLabelPrefix={currency}
           yAxisLabelSuffix=''
           yAxisTextNumberOfLines={1}
