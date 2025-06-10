@@ -13,6 +13,11 @@ import {
 import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
+/**
+ * Displays the user settings screen with profile information, preferences, support options, and logout functionality.
+ *
+ * Provides navigation to sub-settings screens and allows toggling of notification preferences.
+ */
 export default function SettingsScreen() {
   const router = useRouter();
   const { settings, updateSettings } = useSettingsStore();
