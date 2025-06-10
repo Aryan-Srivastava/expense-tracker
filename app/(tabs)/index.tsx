@@ -47,17 +47,6 @@ export default function DashboardScreen() {
   
   // Get upcoming subscriptions (next 7 days)
   const upcomingSubscriptions = getUpcomingSubscriptions(7);
-  
-  // Sample weekly expense data for the chart
-  const weeklyExpenseData = [
-    { value: 150, label: 'Mon' },
-    { value: 220, label: 'Tue' },
-    { value: 180, label: 'Wed' },
-    { value: 340, label: 'Thu' },
-    { value: 280, label: 'Fri' },
-    { value: 190, label: 'Sat' },
-    { value: 120, label: 'Sun' },
-  ];
 
   // Calculate total owed and owes
   const totalOwed = getTotalOwed('user1'); // Assuming current user is 'user1'
