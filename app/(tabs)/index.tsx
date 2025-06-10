@@ -1,6 +1,7 @@
 import ExpenseCard from '@/components/ExpenseCard';
 import SubscriptionCard from '@/components/SubscriptionCard';
 import SummaryCard from '@/components/SummaryCard';
+import { LineChart } from '@/components/ui/charts';
 import { colors } from '@/constants/Colors';
 import { useExpenseStore } from '@/hooks/useExpenseStore';
 import { useGroupStore } from '@/hooks/useGroupStore';
@@ -48,6 +49,17 @@ export default function DashboardScreen() {
   // Get upcoming subscriptions (next 7 days)
   const upcomingSubscriptions = getUpcomingSubscriptions(7);
   
+  // Sample weekly expense data for the chart
+  const weeklyExpenseData = [
+    { value: 150, label: 'Mon' },
+    { value: 220, label: 'Tue' },
+    { value: 180, label: 'Wed' },
+    { value: 340, label: 'Thu' },
+    { value: 280, label: 'Fri' },
+    { value: 190, label: 'Sat' },
+    { value: 120, label: 'Sun' },
+  ];
+
   // Calculate total owed and owes
   const totalOwed = getTotalOwed('user1'); // Assuming current user is 'user1'
   const totalOwes = getTotalOwes('user1');
@@ -224,6 +236,15 @@ export default function DashboardScreen() {
           <Bell size={24} color={colors.text} />
         </Pressable>
       </View>
+      
+      {/* Weekly Expense Chart */}
+      <LineChart 
+        data={weeklyExpenseData}
+        title="Weekly Expenses"
+        legendText="Expenses"
+        showDataPoints={false}
+        color={colors.primary}
+      />
       
       <View style={styles.monthlyExpenseContainer}>
         <Text style={styles.monthlyExpenseTitle}>Monthly Expenses</Text>
